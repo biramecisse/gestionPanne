@@ -1,0 +1,72 @@
+{% extends('template/template.html.twig')  %}
+
+
+
+
+{% block contenu %}
+
+<br>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">La liste des interventions</h6>
+            <a class="btn btn-success" data-bs-toggle="modal" href="#exampleModalToggleSecteurCible" role="button">Ajouter</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                <tr class="text-dark">
+
+                    <th scope="col">Directions et Services</th>
+
+                    <th scope="col">Type de Panne</th>
+
+                    <th scope="col">Description de la Panne</th>
+
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for intervention in interventions %}
+                <tr>
+                    <td style="text-transform: uppercase">{{ intervention.DirectionEtService  }}</td>
+                    <td>{{ intervention.TypeDePanne}}</td>
+                    <td>{{ intervention.DescrptionDeLaPanne }}</td>
+                    <td> <div>
+                            <a class="btn btn-sm btn-primary" data-bs-toggle="modal" href="{{ path('app_intervention_modifier', {id: intervention.id}) }}"><i class="fa fa-solid fa-pen"></i></a>
+                            <a class="btn btn-sm btn-danger" href="{{ path('app_intervention_supprimer', {id: intervention.id}) }}"><i class="fa fa-solid fa-trash"></i></a>
+                        </div>
+                    </td>
+
+
+
+                </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalToggleSecteurCible" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Ajouter Nouvel Intervention</h1>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}, 'action': path('app_intervention_add'), 'method': 'POST'}) }}
+                <div class="example-wrapper">
+                    {{ form(form) }}
+                </div>
+                {{ form_rest(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock %}
+
